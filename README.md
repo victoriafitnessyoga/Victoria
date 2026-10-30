@@ -4,6 +4,9 @@ Production: https://www.victoriafitness.vn/
 
 Edit `index.html` and files in `assets/`, then commit to `main`.
 
+Cloudflare watches `main` and automatically builds and deploys new commits.
+Check the build status before considering a website update published.
+
 Cloudflare Workers Builds configuration:
 
 - Repository: `victoriafitnessyoga/Victoria`
