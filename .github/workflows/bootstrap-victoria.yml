@@ -1,0 +1,33 @@
+name: Bootstrap Victoria source
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bootstrap-victoria-source
+  cancel-in-progress: false
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: main
+      - name: Restore verified Victoria source
+        run: node scripts/bootstrap-source.mjs
+      - name: Verify form and source attribution
+        run: node --test tests/lead-attribution.test.cjs
+      - name: Verify Cloudflare build
+        run: node scripts/build-cloudflare.mjs
+      - name: Save source in this repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html assets TRACKING.md README.md .gitignore integrations tests
+          git commit -m "Import verified Victoria landing page with lead attribution"
+          git push origin HEAD:main
