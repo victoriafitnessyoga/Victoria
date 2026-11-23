@@ -145,6 +145,27 @@ function formHarness(fetch) {
   vm.runInContext(html.slice(start, end), context);
   return { context, calls, status };
 }
+
+test("the page initializes the Victoria Meta Pixel and queues one PageView", () => {
+  const head = html.slice(0, html.indexOf("</head>"));
+  const scripts = [...head.matchAll(/<script>([\s\S]*?)<\/script>/g)]
+    .filter(match => match[1].includes("fbevents.js"));
+  assert.equal(scripts.length, 1);
+
+  const insertedScripts = [];
+  const firstScript = { parentNode:{ insertBefore:script => insertedScripts.push(script) } };
+  const document = { createElement:() => ({}), getElementsByTagName:() => [firstScript] };
+  const context = vm.createContext({ document });
+  context.window = context;
+  vm.runInContext(scripts[0][1], context);
+
+  assert.deepEqual(insertedScripts, [{ async:true, src:"https://connect.facebook.net/en_US/fbevents.js" }]);
+  assert.deepEqual(Array.from(context.fbq.queue, args => Array.from(args)), [
+    ["init", "1445114913415739"],
+    ["track", "PageView"],
+  ]);
+});
+
 test("form sends attribution and keeps exactly one Meta Lead plus SubmitForm on each platform", async () => {
   let sent;
   const h = formHarness(async (url, options) => { sent = JSON.parse(options.body); });
