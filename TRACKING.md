@@ -1,11 +1,25 @@
 # Theo dõi nguồn lead Victoria
 
+## Xác nhận gửi form và mã sự kiện
+
+Form gửi `POST /api/lead` trên cùng website. Worker chuyển tiếp tới Apps Script hiện tại và chỉ trả `{"ok":true}` khi phản hồi JSON của Apps Script có `ok: true`. Trình duyệt chỉ hiện thành công và bắn pixel sau kết quả đó. Lỗi mạng, HTTP lỗi, hoặc JSON `ok: false` hiện thông báo lỗi và không bắn Lead / SubmitForm.
+
+Mỗi lần gửi tạo một `event_id` (UUID). Mã này nằm trong payload ghi sheet, trong `fbq('track','Lead', …, {eventID})`, trong custom `SubmitForm` của Meta, và trong `ttq.track('SubmitForm', …, {event_id})`. Cùng một mã cho một lần gửi để sau này CAPI / TikTok Events API đối soát trùng. Chưa có access token và chưa gửi sự kiện phía server. Cần measurement/access token thì mới bật được CAPI.
+
+Meta vẫn bắn cả `Lead` (sự kiện chuẩn, dùng làm conversion) và custom `SubmitForm`. Giữ `SubmitForm` vì báo cáo cũ và test đang đối chiếu nó; không chọn `SubmitForm` làm conversion, nếu không một form bị tính hai lần. TikTok vẫn là `SubmitForm`. Khi khách chọn đúng Platinum hoặc Ruby, sự kiện kèm `value` và `currency: "VND"` theo giá năm đang niêm yết (9.420.000 và 28.600.000). Gói khác không có một giá trọn gói rõ trên form thì không gửi value.
+
+Số điện thoại trên form được đưa về E.164 (`+84…`) rồi băm SHA-256 trước khi `ttq.identify({ phone_number })`. Pixel không nhận số thô. Hotline và Messenger bắn thêm sự kiện chuẩn `Contact`, không kèm value; `hotline_click` vẫn giữ.
+
+PageView chỉ bắn một lần lúc tải trang. Meta tắt PageView tự động khi history đổi (`fbq.disablePushState`). TikTok tải với `historyObserver: false`. Link neo trong trang cuộn tới mục tiêu và không đổi hash, để nút “Tư vấn gói trải nghiệm” không tạo PageView thứ hai.
+
+GA4 chưa có measurement ID trong repo. Chưa thêm Zalo vì chưa có số hoặc OA thật.
+
 ## Các phần đã chuẩn bị
 
 - `index.html` và `assets/lead-attribution.js`: đọc UTM, tên/ID chiến dịch, nhóm quảng cáo, quảng cáo và mã click.
 - Lưu nguồn đầu tiên và nguồn xác định gần nhất trong cùng trình duyệt, cùng origin. Thời hạn 30 ngày tính từ lần nhận diện nguồn gần nhất. Lượt quay lại không có nguồn không gia hạn hay xóa nguồn đã biết.
 - Google Apps Script: ghi theo tên cột thực tế, chỉ thêm cột thiếu, giữ nguyên vị trí cột cũ và dữ liệu sales. Không lưu tên/SĐT trong bộ nhớ attribution của trình duyệt.
-- Meta giữ lời gọi `Lead` và custom `SubmitForm`; TikTok giữ lời gọi `SubmitForm`. Attribution không tự cài thêm Pixel hay Events API.
+- Meta giữ lời gọi `Lead` và custom `SubmitForm`; TikTok giữ lời gọi `SubmitForm`. Attribution không tự cài thêm Pixel hay Events API. `Lead` là conversion chuẩn. CAPI vẫn cần token, chưa bật.
 
 ## Mẫu cho Meta
 
@@ -69,7 +83,7 @@ Thông tin nguồn từ link có thể được sao chép/chia sẻ, nên phản
 3. Gắn UTM vào ads và link organic. Chỉ đổi code website sẽ không tự bổ sung tên quảng cáo vào những link không có nhãn.
 4. Dùng lead test để kiểm tra nguồn, tên/ID ads, rồi quay lại bằng link không có query trên cùng trình duyệt và kiểm tra nguồn vẫn được giữ.
 
-Form hiện dùng `fetch` với `mode: no-cors` theo source cũ: trình duyệt không đọc được xác nhận ghi Sheet từ server. Kiểm tra dòng trong Sheet là bước xác nhận cuối; thông báo thành công trên giao diện tự nó không chứng minh Sheet đã ghi xong.
+Form gọi `POST /api/lead`. Worker đọc kết quả Apps Script rồi trả JSON cho trình duyệt. Thông báo thành công trên giao diện chỉ hiện khi phản hồi có `ok: true`. Vẫn nên đối chiếu một dòng trong Sheet sau khi đổi deployment Apps Script, vì cột `event_id` chỉ xuất hiện sau lần redeploy đó.
 
 Kiểm tra tự động: `node --test tests/lead-attribution.test.cjs` (18 trường hợp).
 

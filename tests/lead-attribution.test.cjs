@@ -127,17 +127,17 @@ test("ID-only templates remain compatible", () => {
   assert.equal(p.ad_id, "333");
 });
 
-function formHarness(fetch) {
+function formHarness(fetch, fields) {
   const attribution = visit(meta).window.victoriaAttribution;
   const calls = [];
   const status = { classList:{ toggle() {} }, style:{} };
   const button = { textContent:"Submit", setAttribute() {}, removeAttribute() {} };
-  const form = { querySelector:() => button, reset() { calls.push(["reset"]); }, fields:{ bottomName:"TEST", bottomPhone:"0900000000", bottomNote:"Customer note" } };
+  const form = { querySelector:() => button, reset() { calls.push(["reset"]); }, fields:fields || { bottomName:"TEST", bottomPhone:"0900000000", bottomNote:"Customer note" } };
   const context = vm.createContext({
-    window:{ victoriaAttribution:attribution, dataLayer:[], fbq:(...args) => calls.push(["meta", ...args]), ttq:{ track:(...args) => calls.push(["tiktok", ...args]) } },
+    window:{ victoriaAttribution:attribution, dataLayer:[], fbq:(...args) => calls.push(["meta", ...args]), ttq:{ track:(...args) => calls.push(["tiktok", ...args]), identify:(...args) => calls.push(["tiktok-identify", ...args]) } },
     document:{ title:"Victoria", getElementById:() => status },
     FormData:class { constructor(f) { this.fields = f.fields; } get(key) { return this.fields[key]; } },
-    URLSearchParams, fetch, console:{ error() {} }, form,
+    URLSearchParams, fetch, console:{ error() {} }, form, crypto:globalThis.crypto, TextEncoder,
   });
   context.window.location = new URL("https://www.victoriafitness.vn/");
   const start = html.indexOf("    const victoriaLeadEndpoint =");
@@ -160,6 +160,7 @@ test("the page initializes the Victoria Meta Pixel and queues one PageView", () 
   vm.runInContext(scripts[0][1], context);
 
   assert.deepEqual(insertedScripts, [{ async:true, src:"https://connect.facebook.net/en_US/fbevents.js" }]);
+  assert.equal(context.fbq.disablePushState, true);
   assert.deepEqual(Array.from(context.fbq.queue, args => Array.from(args)), [
     ["init", "1445114913415739"],
     ["track", "PageView"],
@@ -168,13 +169,40 @@ test("the page initializes the Victoria Meta Pixel and queues one PageView", () 
 
 test("form sends attribution and keeps exactly one Meta Lead plus SubmitForm on each platform", async () => {
   let sent;
-  const h = formHarness(async (url, options) => { sent = JSON.parse(options.body); });
+  let url;
+  const h = formHarness(async (target, options) => {
+    url = target;
+    sent = JSON.parse(options.body);
+    return { ok:true, json:async () => ({ ok:true }) };
+  });
   await vm.runInContext('submitLead(form, "bottomFormSuccess", "footer")', h.context);
+  assert.equal(url, "/api/lead");
   assert.equal(sent.ad_id, "303");
   assert.equal(sent.note, "Customer note");
+  assert.equal(sent.phone, "0900000000");
+  assert.match(sent.event_id, /^[0-9a-f-]{36}$/i);
+  const lead = h.calls.find(x => x[0] === "meta" && x[1] === "track" && x[2] === "Lead");
+  assert.equal(lead[4].eventID, sent.event_id);
+  assert.equal(lead[3].currency, undefined);
   assert.equal(h.calls.filter(x => x[0] === "meta" && x[1] === "track" && x[2] === "Lead").length, 1);
-  assert.equal(h.calls.filter(x => x[0] === "meta" && x[2] === "SubmitForm").length, 1);
-  assert.equal(h.calls.filter(x => x[0] === "tiktok" && x[1] === "SubmitForm").length, 1);
+  assert.equal(h.calls.filter(x => x[0] === "meta" && x[1] === "trackCustom" && x[2] === "SubmitForm").length, 1);
+  const tiktok = h.calls.find(x => x[0] === "tiktok" && x[1] === "SubmitForm");
+  assert.equal(tiktok[3].event_id, sent.event_id);
+  const identify = h.calls.find(x => x[0] === "tiktok-identify");
+  assert.match(identify[1].phone_number, /^[0-9a-f]{64}$/);
+  assert.equal(JSON.stringify(h.calls.filter(x => x[0] !== "reset")).includes("0900000000"), false);
+});
+
+test("Ruby uses the listed annual price and an unconfirmed response does not fire Lead", async () => {
+  const ok = formHarness(async () => ({ ok:true, json:async () => ({ ok:true }) }), { bottomName:"TEST", bottomPhone:"0912345678", bottomInterest:"Ruby" });
+  await vm.runInContext('submitLead(form, "bottomFormSuccess", "footer")', ok.context);
+  const lead = ok.calls.find(x => x[2] === "Lead");
+  assert.equal(lead[3].value, 28600000);
+  assert.equal(lead[3].currency, "VND");
+  const bad = formHarness(async () => ({ ok:true, json:async () => ({ ok:false }) }));
+  await vm.runInContext('submitLead(form, "bottomFormSuccess", "footer")', bad.context);
+  assert.equal(bad.calls.some(x => x.includes("Lead") || x[0] === "reset"), false);
+  assert.equal(bad.calls.some(x => x.includes("lead_form_submit_error")), true);
 });
 test("network failure does not send success events or reset the form", async () => {
   const h = formHarness(async () => { throw new Error("offline"); });
@@ -218,6 +246,13 @@ test("Apps Script appends new headers and maps existing extra/reordered columns 
 });
 
 test("all inline scripts and backend parse", () => {
-  for (const match of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)) new vm.Script(match[1]);
+  for (const match of html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)) {
+    const attrs = match[1] || "";
+    if (/type\s*=\s*["']application\/ld\+json["']/i.test(attrs)) {
+      JSON.parse(match[2]);
+      continue;
+    }
+    new vm.Script(match[2]);
+  }
   new vm.Script(backend);
 });
