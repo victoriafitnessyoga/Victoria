@@ -1,0 +1,105 @@
+/* Inter, Be Vietnam Pro and Lora. Each file contains Latin, Latin Extended and Vietnamese (except Lora, whose source has no U+20AB). SIL Open Font License. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("inter-400.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Be Vietnam Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("be-vietnam-pro-400.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("inter-500.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Be Vietnam Pro";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("be-vietnam-pro-500.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("inter-600.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Be Vietnam Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("be-vietnam-pro-600.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("inter-700.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Be Vietnam Pro";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("be-vietnam-pro-700.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("inter-800.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Be Vietnam Pro";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("be-vietnam-pro-800.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("inter-900.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Be Vietnam Pro";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("be-vietnam-pro-900.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AB, U+20AC, U+2122, U+2212;
+}
+@font-face {
+  font-family: "Lora";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("lora-italic-700.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20AC, U+2122, U+2212;
+}
