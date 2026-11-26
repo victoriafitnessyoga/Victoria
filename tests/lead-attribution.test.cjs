@@ -218,6 +218,12 @@ test("Apps Script appends new headers and maps existing extra/reordered columns 
 });
 
 test("all inline scripts and backend parse", () => {
-  for (const match of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)) new vm.Script(match[1]);
+  for (const match of html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)) {
+    if (/type\s*=\s*["']application\/ld\+json["']/i.test(match[1] || "")) {
+      JSON.parse(match[2]);
+      continue;
+    }
+    new vm.Script(match[2]);
+  }
   new vm.Script(backend);
 });
