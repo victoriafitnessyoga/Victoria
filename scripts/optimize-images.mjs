@@ -14,6 +14,8 @@ function sizesFor(tag) {
   if (tag.includes("hero-photo")) return "100vw";
   if (tag.includes("brand-logo")) return "178px";
   if (tag.includes("footer-logo")) return "150px";
+  if (tag.includes("thumb-course-")) return "(max-width: 780px) 62vw, 264px";
+  if (tag.includes("thumb-feedback") || tag.includes("tiktok-")) return "(max-width: 780px) 72vw, 376px";
   return "(max-width: 780px) 100vw, 720px";
 }
 

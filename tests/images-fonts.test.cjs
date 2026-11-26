@@ -12,6 +12,10 @@ test("images use responsive formats and fonts are self-hosted", () => {
   assert.match(html, /font-weight: 600;/);
   assert.equal(html.includes("Poppins"), false);
   assert.match(html, /rel="preload" as="image" type="image\/avif"/);
+  assert.match(html, /\.tiktok-frame img \{[^}]*object-fit:cover/);
+  assert.equal(html.includes(".tiktok-frame > img"), false);
+  assert.match(html, /class="tiktok-frame"[\s\S]*?sizes="\(max-width: 780px\) 72vw, 376px"/);
+  assert.match(html, /class="course-video-placeholder"[\s\S]*?sizes="\(max-width: 780px\) 62vw, 264px"/);
   assert.match(html, /rel="preload" as="font"/);
   assert.equal(fs.existsSync(path.join(__dirname, "..", "assets/responsive/victoria-boxing-kettlebell-hero-1200.avif")), true);
 });
