@@ -23,12 +23,15 @@ The build copies `index.html`, `assets/`, and `public/` into `dist/`.
 to `https://www.victoriafitness.vn`. If that redirect logic throws, the worker
 serves the static asset anyway. A missing path returns `404.html`.
 
-Form submissions still post directly to the existing Google Apps Script webhook.
-Attribution documentation and UTM templates are in `TRACKING.md`; the Apps Script
-source is in `integrations/`.
+`POST /api/lead` on the worker forwards to the existing Google Apps Script webhook
+and returns `{ok:true}` when the script confirms the row, or when the script
+returns HTTP 200 with a body that is not JSON. Other failures stay failures so
+the page does not claim success. The browser fires Meta `Lead` only after that
+response. Attribution documentation is in `TRACKING.md`. Redeploy the current
+Apps Script (same URL) so the sheet gains an `event_id` column.
 
 Run attribution/form checks with `node --test tests/lead-attribution.test.cjs`.
-The backend uses no-cors submissions, so verify a row in the Google Sheet to
-confirm a real submission was saved.
+Verify a real submission against a row in the Google Sheet. The success
+message on the page is shown only after `/api/lead` returns `{ok:true}`.
 
 Do not commit credentials, Google/Meta/TikTok access tokens, or `.env` files.

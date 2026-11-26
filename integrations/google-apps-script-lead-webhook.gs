@@ -15,6 +15,7 @@ const HEADERS = [
   "first_adset_id", "first_ad_id", "first_landing_page", "first_referrer", "first_seen_at",
   "last_source", "last_medium", "last_campaign", "last_content", "last_campaign_id",
   "last_adset_id", "last_ad_id", "last_landing_page", "last_referrer", "last_seen_at",
+  "event_id",
 ];
 
 function doPost(e) {

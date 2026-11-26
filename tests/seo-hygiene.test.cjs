@@ -22,7 +22,6 @@ test("homepage SEO tags use only published locations", () => {
   assert.equal((html.match(/"@type": "Question"/g) || []).length, 7);
   assert.match(html, /"@type": \[\s*"HealthClub",\s*"ExerciseGym"/);
   assert.match(html, /213\/16 Nguyễn Gia Trí, P\.25/);
-  assert.equal(html.includes("/api/lead"), false);
 });
 
 test("worker redirects apex and fails open to assets", async () => {

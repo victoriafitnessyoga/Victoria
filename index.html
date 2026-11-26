@@ -26,6 +26,7 @@
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)
     }(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+    fbq.disablePushState = true;
     fbq("init", "1445114913415739");
     fbq("track", "PageView");
   </script>
@@ -62,7 +63,7 @@
         e.parentNode.insertBefore(n, e);
       };
 
-      ttq.load("DB0G8JJC77U5SC4FO7I0");
+      ttq.load("DB0G8JJC77U5SC4FO7I0", { historyObserver: false });
       ttq.page();
     }(window, document, "ttq");
   </script>
@@ -1952,7 +1953,8 @@
       box-shadow: 0 14px 34px rgba(0, 0, 0, .25);
     }
 
-    .mobile-cta .btn { flex: 1; min-height: 48px; }
+    .mobile-cta .btn { flex: 1 1 0; min-width: 0; min-height: 48px; padding: 10px 8px; text-align: center; line-height: 1.15; white-space: normal; }
+    .mobile-cta .btn.dark { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .72); }
 
     @media (max-width: 980px) {
       .nav-links { display: none; }
@@ -3710,7 +3712,7 @@
           <strong>Muốn xem phòng tập trước khi chọn gói?</strong>
           <div class="inline-cta">
             <a class="btn primary" href="#dang-ky">Đăng ký ghé xem phòng tập</a>
-            <a class="btn light" href="https://m.me/victoriafitnesscenter" target="_blank" rel="noopener">Chat hỏi chi nhánh gần nhất</a>
+            <a class="btn light" data-track-messenger href="https://m.me/victoriafitnesscenter" target="_blank" rel="noopener">Chat hỏi chi nhánh gần nhất</a>
           </div>
         </div>
       </div>
@@ -3766,7 +3768,7 @@
           <aside class="faq-contact">
             <h3>Vẫn còn câu hỏi?</h3>
             <p>Chat trực tiếp với Victoria để được tư vấn theo mục tiêu của bạn.</p>
-            <a class="btn" href="https://m.me/victoriafitnesscenter" target="_blank" rel="noopener">Chat với Victoria</a>
+            <a class="btn" data-track-messenger href="https://m.me/victoriafitnesscenter" target="_blank" rel="noopener">Chat với Victoria</a>
           </aside>
         </div>
 
@@ -3824,7 +3826,7 @@
               <li>Nhận thông tin theo nhu cầu của bạn</li>
             </ul>
             <div class="contact-chat-actions">
-              <a class="btn primary" href="https://m.me/victoriafitnesscenter" id="fanpageLink" target="_blank" rel="noopener">Chat Fanpage</a>
+              <a class="btn primary" data-track-messenger href="https://m.me/victoriafitnesscenter" id="fanpageLink" target="_blank" rel="noopener">Chat Fanpage</a>
               <a class="contact-hotline" href="tel:1900299991" data-track-hotline><span>Hoặc gọi hotline</span>1900 299 991</a>
             </div>
           </article>
@@ -3889,7 +3891,7 @@
 
   <div class="mobile-cta" aria-label="Hành động nhanh trên điện thoại">
     <a class="btn primary" href="#dang-ky">Tập thử miễn phí</a>
-    <a class="btn dark" href="https://m.me/victoriafitnesscenter" target="_blank" rel="noopener">Chat tư vấn</a>
+    <a class="btn dark" data-track-messenger href="https://m.me/victoriafitnesscenter" target="_blank" rel="noopener">Chat tư vấn</a>
   </div>
 
   <div class="image-modal" id="imageModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Xem ảnh Victoria">
@@ -3939,6 +3941,20 @@
       closeMobileMenu();
     });
 
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const href = link.getAttribute("href") || "";
+        if (href.length < 2) return;
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        let id = "";
+        try { id = decodeURIComponent(href.slice(1)); } catch { return; }
+        const target = document.getElementById(id);
+        if (!target) return;
+        event.preventDefault();
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      });
+    });
 
     document.querySelectorAll(".faq-question").forEach((button) => {
       button.addEventListener("click", () => {
@@ -3987,7 +4003,8 @@
     branchTabs.forEach((tab) => tab.addEventListener("click", () => activateBranch(tab.dataset.branchTab)));
     activateBranch("nguyen-gia-tri");
 
-    const victoriaLeadEndpoint = "https://script.google.com/macros/s/AKfycbwoL-TDGnhNWOBGRDvj-9rJm0UabvWtd1sJVCqs48g_Vwh05w7Q9q55d6QoLP0btpV5/exec";
+    const victoriaLeadEndpoint = "/api/lead";
+    const PACKAGE_PRICE_VND = { Platinum: 9420000, Ruby: 28600000 };
 
     const leadFieldMap = {
       footer: {
@@ -4001,6 +4018,25 @@
       },
     };
 
+    function leadEventId() {
+      if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") return crypto.randomUUID();
+      return "vf-" + Date.now().toString(36) + "-" + Math.random().toString(16).slice(2);
+    }
+
+    function toE164Phone(phone) {
+      const compact = String(phone || "").trim().replace(/[\s.-]/g, "");
+      if (/^\+84[35789]\d{8}$/.test(compact)) return compact;
+      if (/^84[35789]\d{8}$/.test(compact)) return "+" + compact;
+      if (/^0[35789]\d{8}$/.test(compact)) return "+84" + compact.slice(1);
+      return "";
+    }
+
+    async function sha256Hex(value) {
+      if (!value || typeof crypto === "undefined" || !crypto.subtle || typeof TextEncoder === "undefined") return "";
+      const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+      return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+    }
+
     const getTrackingParams = () => {
       if (window.victoriaAttribution) return window.victoriaAttribution.getPayload();
       const params = new URLSearchParams(window.location.search);
@@ -4011,13 +4047,14 @@
       }, {});
     };
 
-    const buildLeadPayload = (form, formLocation) => {
+    const buildLeadPayload = (form, formLocation, eventId) => {
       const formData = new FormData(form);
       const fields = leadFieldMap[formLocation];
       const value = (name) => name ? String(formData.get(name) || "").trim() : "";
 
       return {
         submitted_at:new Date().toISOString(),
+        event_id:eventId,
         form_location:formLocation,
         page_url:window.location.href,
         page_title:document.title,
@@ -4038,13 +4075,21 @@
       if (typeof window.ttq?.track === "function") window.ttq.track(eventName, parameters);
     };
 
-    const trackLeadSubmitSuccess = (parameters = {}) => {
-      window.dataLayer?.push({ event:"lead_form_submit_success", ...parameters });
+    const trackContact = (method) => {
+      const parameters = { content_name:method };
+      window.dataLayer?.push({ event:"Contact", ...parameters });
+      if (typeof window.fbq === "function") window.fbq("track", "Contact", parameters);
+      if (typeof window.ttq?.track === "function") window.ttq.track("Contact", parameters);
+    };
+
+    const trackLeadSubmitSuccess = (parameters = {}, eventId = "", phoneHash = "") => {
+      window.dataLayer?.push({ event:"lead_form_submit_success", event_id:eventId, ...parameters });
+      if (phoneHash && typeof window.ttq?.identify === "function") window.ttq.identify({ phone_number:phoneHash });
       if (typeof window.fbq === "function") {
-        window.fbq("track", "Lead", parameters);
-        window.fbq("trackCustom", "SubmitForm", parameters);
+        window.fbq("track", "Lead", parameters, { eventID:eventId });
+        window.fbq("trackCustom", "SubmitForm", parameters, { eventID:eventId });
       }
-      if (typeof window.ttq?.track === "function") window.ttq.track("SubmitForm", parameters);
+      if (typeof window.ttq?.track === "function") window.ttq.track("SubmitForm", parameters, { event_id:eventId });
     };
 
     const setFormMessage = (targetId, message, isError = false) => {
@@ -4056,21 +4101,24 @@
     };
 
     const submitLead = async (form, targetId, formLocation) => {
-      const payload = buildLeadPayload(form, formLocation);
+      const eventId = leadEventId();
+      const explicitInterest = String(new FormData(form).get(leadFieldMap[formLocation].interest) || "").trim();
+      const payload = buildLeadPayload(form, formLocation, eventId);
       const button = form.querySelector("button[type='submit']");
       const originalButtonText = button?.textContent || "";
       button?.setAttribute("disabled", "true");
       if (button) button.textContent = "Đang gửi...";
 
       try {
-        await fetch(victoriaLeadEndpoint, {
+        const response = await fetch(victoriaLeadEndpoint, {
           method:"POST",
-          mode:"no-cors",
-          headers:{ "Content-Type":"text/plain;charset=utf-8" },
+          headers:{ "Content-Type":"application/json" },
           body:JSON.stringify(payload),
         });
+        const result = await response.json().catch(() => null);
+        if (!response.ok || result?.ok !== true) throw new Error("Lead was not confirmed");
 
-        trackLeadSubmitSuccess({
+        const parameters = {
           form_location:formLocation,
           interest:payload.interest || "not_selected",
           goal:payload.goal || "not_selected",
@@ -4078,7 +4126,12 @@
           consult_time:payload.consult_time || "not_selected",
           utm_source:payload.utm_source || "unknown",
           utm_campaign:payload.utm_campaign || "not_set",
-        });
+        };
+        if (PACKAGE_PRICE_VND[explicitInterest]) {
+          parameters.value = PACKAGE_PRICE_VND[explicitInterest];
+          parameters.currency = "VND";
+        }
+        trackLeadSubmitSuccess(parameters, eventId, await sha256Hex(toE164Phone(payload.phone)));
 
         setFormMessage(targetId, "Đã nhận thông tin. Đội ngũ Victoria sẽ liên hệ sớm.");
         form.reset();
@@ -4104,7 +4157,14 @@
     });
 
     document.querySelectorAll("[data-track-hotline]").forEach((link) => {
-      link.addEventListener("click", () => trackVictoriaEvent("hotline_click", { phone:"1900299991" }));
+      link.addEventListener("click", () => {
+        trackVictoriaEvent("hotline_click", { phone:"1900299991" });
+        trackContact("hotline");
+      });
+    });
+
+    document.querySelectorAll("[data-track-messenger]").forEach((link) => {
+      link.addEventListener("click", () => trackContact("messenger"));
     });
 
     const createTikTokPlayer = ({ facade, videoId, title, sourceUrl, extraQuery = "" }) => {
@@ -4331,37 +4391,15 @@
 
     const topbar = document.querySelector(".topbar");
     const mobileCta = document.querySelector(".mobile-cta");
-    let previousScrollY = window.scrollY;
     let scrollFramePending = false;
-    let hiddenBySection = true;
-    let hiddenByDirection = false;
-    let scrollDirection = 0;
-    let scrollDistance = 0;
+    let hiddenBySection = false;
 
     const syncMobileCta = () => {
-      mobileCta?.classList.toggle("is-hidden", hiddenBySection || hiddenByDirection);
+      mobileCta?.classList.toggle("is-hidden", hiddenBySection);
     };
 
     const handleScrollState = () => {
-      const currentScrollY = window.scrollY;
-      topbar?.classList.toggle("is-scrolled", currentScrollY > 18);
-      if (window.innerWidth <= 780 && currentScrollY > 240) {
-        const delta = currentScrollY - previousScrollY;
-        const direction = Math.sign(delta);
-        if (direction && direction !== scrollDirection) {
-          scrollDirection = direction;
-          scrollDistance = 0;
-        }
-        scrollDistance += Math.abs(delta);
-        if (scrollDistance > 48) {
-          hiddenByDirection = direction > 0;
-          scrollDistance = 0;
-        }
-      } else {
-        hiddenByDirection = false;
-        scrollDistance = 0;
-      }
-      previousScrollY = currentScrollY;
+      topbar?.classList.toggle("is-scrolled", window.scrollY > 18);
       syncMobileCta();
       scrollFramePending = false;
     };
@@ -4373,17 +4411,16 @@
     }, { passive:true });
 
     if ("IntersectionObserver" in window && mobileCta) {
-      const ctaVisibility = { hero:true, contact:false, footer:false };
+      const ctaVisibility = { contact:false, footer:false };
       const ctaSectionObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          if (entry.target.classList.contains("hero")) ctaVisibility.hero = entry.isIntersecting;
           if (entry.target.classList.contains("contact")) ctaVisibility.contact = entry.isIntersecting;
           if (entry.target.classList.contains("footer")) ctaVisibility.footer = entry.isIntersecting;
         });
-        hiddenBySection = ctaVisibility.hero || ctaVisibility.contact || ctaVisibility.footer;
+        hiddenBySection = ctaVisibility.contact || ctaVisibility.footer;
         syncMobileCta();
-      }, { threshold:0.14 });
-      document.querySelectorAll(".hero, .contact, .footer").forEach((section) => ctaSectionObserver.observe(section));
+      }, { threshold:0.2 });
+      document.querySelectorAll(".contact, .footer").forEach((section) => ctaSectionObserver.observe(section));
     }
 
     handleScrollState();
