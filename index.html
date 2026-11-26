@@ -549,6 +549,7 @@
     }
 
     .consent-check input { width: 16px; height: 16px; margin: 1px 0 0; accent-color: var(--gold-dark); }
+    .consent-check a { color: var(--gold-dark); text-decoration: underline; text-underline-offset: 2px; }
 
     .form-success {
       display: none;
@@ -2622,6 +2623,7 @@
     .footer-socials a { padding:9px 12px; border:1px solid rgba(255,255,255,.18); border-radius:999px; color:var(--white); text-decoration:none; }
     .footer-socials a:hover { border-color:var(--gold); color:var(--gold); }
     .footer-bottom { display:flex; justify-content:space-between; gap:16px; padding-top:22px; border-top:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.45); }
+    .footer-bottom a { color:#fff; text-decoration:underline; text-underline-offset:2px; }
 
     .branch-card-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
     .branch-card { overflow:hidden; border:1px solid var(--line); border-radius:12px; background:var(--paper); box-shadow:0 12px 32px rgba(20,20,20,.06); }
@@ -3841,8 +3843,8 @@
               </div>
               <label><span class="sr-only">Khung giờ tư vấn</span><select class="field" id="bottomConsultTime" name="bottomConsultTime" required><option value="" selected disabled>Khung giờ tư vấn</option><option>08:00 – 11:00</option><option>11:00 – 14:00</option><option>14:00 – 18:00</option><option>18:00 – 21:00</option></select></label>
               <label><span class="sr-only">Ghi chú thêm (không bắt buộc)</span><textarea class="field" id="bottomNote" name="bottomNote" placeholder="Ghi chú thêm (không bắt buộc)"></textarea></label>
-              <p class="form-note">Thông tin chỉ được dùng để Victoria liên hệ tư vấn, không chia sẻ cho bên thứ ba.</p>
-              <label class="consent-check"><input type="checkbox" required><span>Tôi đồng ý để Victoria liên hệ tư vấn.</span></label>
+              <p class="form-note">Thông tin được dùng để Victoria liên hệ tư vấn. Mục đích và bên xử lý nằm trong <a href="/chinh-sach-bao-mat">Chính sách bảo mật</a>.</p>
+              <label class="consent-check"><input type="checkbox" required><span>Tôi đồng ý để Victoria liên hệ tư vấn theo <a href="/chinh-sach-bao-mat">Chính sách bảo mật</a>.</span></label>
               <button class="btn dark" type="submit">Nhận tư vấn</button>
             </form>
             <div class="form-success" id="bottomFormSuccess" role="status" aria-live="polite">Đã nhận thông tin. Đội ngũ Victoria sẽ liên hệ sớm.</div>
@@ -3881,7 +3883,7 @@
           </div>
         </div>
       </div>
-      <div class="footer-bottom"><span>© Victoria Fitness &amp; Yoga</span><span>Đo chỉ số · Tập có hướng dẫn · Theo dõi theo giai đoạn</span></div>
+      <div class="footer-bottom"><span>© Victoria Fitness &amp; Yoga</span><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><span>Đo chỉ số · Tập có hướng dẫn · Theo dõi theo giai đoạn</span></div>
     </div>
   </footer>
 

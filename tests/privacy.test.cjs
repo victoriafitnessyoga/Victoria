@@ -1,0 +1,21 @@
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const { test } = require("node:test");
+const root = path.join(__dirname, "..");
+test("draft privacy page is linked and leaves legal placeholders", () => {
+  const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const page = fs.readFileSync(path.join(root, "public/chinh-sach-bao-mat.html"), "utf8");
+  const sitemap = fs.readFileSync(path.join(root, "public/sitemap.xml"), "utf8");
+  assert.match(html, /href="\/chinh-sach-bao-mat"/);
+  assert.equal(page.includes("CẦN BỔ SUNG"), false);
+  assert.equal(page.includes("bản nháp"), false);
+  assert.match(page, /CÔNG TY TNHH TRUNG TÂM THỂ DỤC THỂ HÌNH &amp; YOGA VICTORIA \(Victoria Fitness &amp; Yoga Center Company Limited\)/);
+  assert.match(page, /Mã số doanh nghiệp\/MST: 0316335147/);
+  assert.match(page, /Địa chỉ trụ sở: 213\/16 Nguyễn Gia Trí, Phường 25, Quận Bình Thạnh, TP\. Hồ Chí Minh/);
+  assert.equal((page.match(/mailto:info@victoriafitness\.vn/g) || []).length, 2);
+  assert.match(page, /tối đa 24 tháng kể từ lần liên hệ gần nhất/);
+  assert.match(page, /1900 299 991/);
+  assert.match(sitemap, /chinh-sach-bao-mat/);
+  assert.equal(html.includes("/api/lead"), false);
+});
