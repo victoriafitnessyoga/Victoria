@@ -9,10 +9,12 @@ test("draft privacy page is linked and leaves legal placeholders", () => {
   const sitemap = fs.readFileSync(path.join(root, "public/sitemap.xml"), "utf8");
   assert.match(html, /href="\/chinh-sach-bao-mat"/);
   assert.match(page, /Bản nháp — chờ rà soát pháp lý/);
-  assert.match(page, /Tên pháp nhân: \[CẦN BỔ SUNG\]/);
-  assert.match(page, /Mã số thuế: \[CẦN BỔ SUNG\]/);
+  assert.match(page, /CÔNG TY TNHH TRUNG TÂM THỂ DỤC THỂ HÌNH &amp; YOGA VICTORIA \(Victoria Fitness &amp; Yoga Center Company Limited\)/);
+  assert.match(page, /Mã số doanh nghiệp\/MST: 0316335147/);
+  assert.match(page, /Địa chỉ trụ sở: 213\/16 Nguyễn Gia Trí, Phường 25, Quận Bình Thạnh, TP\. Hồ Chí Minh/);
   assert.match(page, /Email liên hệ về dữ liệu cá nhân: \[CẦN BỔ SUNG\]/);
-  assert.match(page, /Thời gian lưu dữ liệu form: \[CẦN BỔ SUNG\]/);
+  assert.match(page, /tối đa 24 tháng kể từ lần liên hệ gần nhất/);
+  assert.match(page, /1900 299 991/);
   assert.match(sitemap, /chinh-sach-bao-mat/);
   assert.equal(html.includes("/api/lead"), false);
 });
