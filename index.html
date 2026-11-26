@@ -185,13 +185,13 @@
       --soft: #f1ece2;
       --line: #ded3bd;
       --gold: #d9b847;
-      --gold-dark: #a67f19;
+      --gold-dark: #7c5f13;
       --promo-red: #141414;
       --promo-blue: #123f95;
       --red: #961d1a;
       --green: #176b4d;
       --text: #34312c;
-      --muted: #756f66;
+      --muted: #6e6860;
       --white: #fff;
       --shadow: 0 18px 44px rgba(20, 20, 20, .18);
     }
@@ -394,7 +394,7 @@
       border: 1px solid rgba(169, 130, 18, .62);
       border-radius: 999px;
       background: rgba(217, 184, 71, .12);
-      color: #9a7310;
+      color: var(--gold-dark);
       font-size: 15px;
       font-weight: 900;
       line-height: 1.2;
@@ -1016,6 +1016,8 @@
       container-type: inline-size;
     }
 
+    .membership-table-section > .shell > .section-head .product-eyebrow { color: var(--gold-dark); }
+
     .product-eyebrow {
       display: inline-flex;
       width: fit-content;
@@ -1195,7 +1197,7 @@
     }
 
     .check {
-      color: #7ee08f;
+      color: #477d50;
       font-size: 22px;
       font-weight: 950;
     }
@@ -2274,7 +2276,7 @@
     .compare-title-row h3 { margin:6px 0 0; color:var(--white); font-size:30px; letter-spacing:-.03em; }
     .compare-table th:not(:first-child) { text-align:center; }
     .compare-table td:not(:first-child) { text-align:center; }
-    .compare-table .no { color:#aaa; font-weight:700; }
+    .compare-table .no { color:#707070; font-weight:700; }
     .compare-note { margin:0; padding:18px 28px; border-top:1px solid var(--line); background:#f7f2e8; color:var(--text); font-size:14px; line-height:1.55; }
 
     .audience-heading { max-width:760px; margin-top:56px; }
@@ -3062,6 +3064,7 @@
       .branch-card-grid [data-branch-card].is-active-branch { display:grid; }
       .amenity-detail-toggle { margin-top:14px; }
       .carousel-status { display:flex; align-items:center; justify-content:center; gap:8px; min-height:28px; margin:8px 0 2px; color:var(--muted); font-size:12px; }
+      #pt .carousel-status { color: rgba(255,255,255,.86); }
       .carousel-status-dots { display:flex; gap:5px; }
       .carousel-status-dot { width:6px; height:6px; border-radius:50%; background:var(--line); transition:width .2s ease, background .2s ease; }
       .carousel-status-dot.is-active { width:18px; border-radius:999px; background:var(--gold-dark); }
