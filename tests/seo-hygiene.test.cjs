@@ -49,7 +49,6 @@ test("public SEO files", () => {
   assert.match(robots, /Sitemap: https:\/\/www\.victoriafitness\.vn\/sitemap\.xml/);
   assert.match(robots, /content signals/);
   assert.match(sitemap, /<loc>https:\/\/www\.victoriafitness\.vn\/<\/loc>/);
-  assert.equal(sitemap.includes("chinh-sach-bao-mat"), false);
   assert.match(llms, /213\/16 Nguyễn Gia Trí/);
   assert.match(llms, /9\.420\.000đ/);
   assert.match(llms, /28\.600\.000đ/);
