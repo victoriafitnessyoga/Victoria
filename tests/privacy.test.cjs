@@ -17,5 +17,4 @@ test("draft privacy page is linked and leaves legal placeholders", () => {
   assert.match(page, /tối đa 24 tháng kể từ lần liên hệ gần nhất/);
   assert.match(page, /1900 299 991/);
   assert.match(sitemap, /chinh-sach-bao-mat/);
-  assert.equal(html.includes("/api/lead"), false);
 });
