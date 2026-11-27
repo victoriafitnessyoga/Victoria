@@ -7,8 +7,8 @@ const root = path.resolve(__dirname, "..");
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 
 test("homepage SEO tags use only published locations", () => {
-  assert.match(html, /<title>Phòng gym &amp; yoga Bình Thạnh, Quận 1 \| Victoria Fitness<\/title>/);
-  assert.match(html, /<h1 id="hero-title">[\s\S]*Phòng gym &amp; yoga[\s\S]*Bình Thạnh &amp; Quận 1/);
+  assert.match(html, /<title>Phòng gym Bình Thạnh, Quận 1 \| Victoria Fitness<\/title>/);
+  assert.match(html, /<h1 id="hero-title">\s*<span class="hero-title-line">Phòng gym<\/span>\s*<span class="hero-title-line">Bình Thạnh &amp; Quận 1<\/span>\s*<\/h1>/);
   assert.match(html, /Tập luyện bền vững bắt đầu từ một lựa chọn đúng/);
   assert.match(html, /rel="canonical" href="https:\/\/www\.victoriafitness\.vn\/"/);
   assert.match(html, /property="og:image" content="https:\/\/www\.victoriafitness\.vn\/assets\/victoria-boxing-kettlebell-hero\.jpg"/);
