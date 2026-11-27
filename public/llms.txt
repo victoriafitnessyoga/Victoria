@@ -1,6 +1,6 @@
 # Victoria Fitness & Yoga
 
-> Phòng gym và yoga tại TP. Hồ Chí Minh. Thông tin dưới đây chỉ lấy từ trang chủ công khai https://www.victoriafitness.vn/ (niêm yết trên site tại thời điểm 24/11/2026). Không suy ra số liệu không có trên trang.
+> Hệ thống phòng gym tại TP. Hồ Chí Minh. Thông tin lấy từ trang chủ https://www.victoriafitness.vn/
 
 Victoria Fitness & Yoga có 3 chi nhánh tại TP.HCM. Hotline niêm yết: 1900 299 991. Giờ tập niêm yết ở cả ba chi nhánh: 05:30–22:00 hằng ngày.
 
@@ -9,14 +9,14 @@ Trang giới thiệu: 6+ năm hoạt động tại TP.HCM, 1.000+ hội viên, 3
 ## Chi nhánh
 
 - Nguyễn Gia Trí, Quận Bình Thạnh: 213/16 Nguyễn Gia Trí, P.25, Q.Bình Thạnh. Khu tập ghi trên site: Gym, PT 1:1, Cardio, Strength. Bản đồ: https://www.google.com/maps/search/?api=1&query=213%2F16%20Nguyen%20Gia%20Tri%20Binh%20Thanh%20Ho%20Chi%20Minh
-- Lê Quang Định, Quận Bình Thạnh: 329–331 Lê Quang Định, P.5, Q.Bình Thạnh. Khu tập ghi trên site: Gym, Yoga, Group X, PT 1:1. Bản đồ: https://www.google.com/maps/search/?api=1&query=329-331%20Le%20Quang%20Dinh%20Binh%20Thanh%20Ho%20Chi%20Minh
-- Bùi Thị Xuân, Quận 1: 168B Bùi Thị Xuân, P.Phạm Ngũ Lão, Q.1. Khu tập ghi trên site: Gym, Yoga, Group X, PT 1:1. Bản đồ: https://www.google.com/maps/search/?api=1&query=168B%20Bui%20Thi%20Xuan%20Quan%201%20Ho%20Chi%20Minh
+- Lê Quang Định, Quận Bình Thạnh: 329–331 Lê Quang Định, P.5, Q.Bình Thạnh. Khu tập ghi trên site: Gym, PT 1:1. Bản đồ: https://www.google.com/maps/search/?api=1&query=329-331%20Le%20Quang%20Dinh%20Binh%20Thanh%20Ho%20Chi%20Minh
+- Bùi Thị Xuân, Quận 1: 168B Bùi Thị Xuân, P.Phạm Ngũ Lão, Q.1. Khu tập ghi trên site: Gym, PT 1:1. Bản đồ: https://www.google.com/maps/search/?api=1&query=168B%20Bui%20Thi%20Xuan%20Quan%201%20Ho%20Chi%20Minh
 
 ## Giá đang niêm yết trên trang
 
-- Platinum: 9.420.000đ/năm, quy đổi trên bảng so sánh 785.000đ/tháng. Quyền lợi ghi trên site gồm Group X, Yoga, Boxing, check-in toàn hệ thống, bộ khăn lớn và nhỏ.
+- Platinum: 9.420.000đ/năm, quy đổi trên bảng so sánh 785.000đ/tháng. Quyền lợi gồm check-in toàn hệ thống và bộ khăn lớn và nhỏ.
 - Ruby: 28.600.000đ/năm, quy đổi trên bảng so sánh khoảng 2.384.000đ/tháng. Thêm tủ đồ riêng, khăn riêng, 10 buổi PT 1:1, dẫn thêm 1 người bạn mỗi tháng.
-- Gói trải nghiệm Gym: 299.000đ, cho hội viên mới, hiệu lực 30 ngày, áp dụng một lần, chỉ khu vực Gym, không gồm Yoga và Group X.
+- Gói trải nghiệm Gym: 299.000đ, cho hội viên mới, hiệu lực 30 ngày, áp dụng một lần và chỉ sử dụng tại khu vực Gym.
 - Một chú thích video trên trang ghi "Tập cùng HLV chỉ từ 350K/buổi".
 - Khóa 9 tuần: nhóm nhỏ 3–5 người, 3 buổi/tuần, Boxing hoặc Bodyweight–Kettlebell, có HLV theo sát.
 
